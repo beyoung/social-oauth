@@ -8,7 +8,6 @@ class TaoBao(OAuth2):
     ACCESS_TOKEN_URL = 'https://oauth.taobao.com/token'
     TAOBAO_API_URL = 'https://eco.taobao.com/router/rest'
 
-    
     def build_api_url(self, url):
         return self.TAOBAO_API_URL
 
@@ -16,7 +15,7 @@ class TaoBao(OAuth2):
         data = {
             'access_token': self.access_token,
             'v': 2.0,
-            'format':'json'
+            'format': 'json'
         }
         data.update(kwargs)
         return data
@@ -26,8 +25,8 @@ class TaoBao(OAuth2):
         self.access_token = res['access_token']
         self.expires_in = res['expires_in']
         self.refresh_token = res['refresh_token']
-        
-        res = self.api_call_get(method='taobao.user.buyer.get', 
+
+        res = self.api_call_get(method='taobao.user.buyer.get',
                                 fields='nick,avatar')
 
         user = res['user_buyer_get_response']['user']

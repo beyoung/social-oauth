@@ -9,20 +9,17 @@ class DouBan(OAuth2):
 
     DOUBAN_API_URL = 'https://api.douban.com'
 
-
     def build_api_url(self, url):
         return '%s%s' % (self.DOUBAN_API_URL, url)
 
     def build_api_data(self, **kwargs):
         return kwargs
 
-
     def http_add_header(self, req):
         """Douban API call must set `access_token` in headers"""
         if getattr(self, 'access_token', None) is None:
             return
-        req.add_header('Authorization',  'Bearer %s' % self.access_token)
-
+        req.add_header('Authorization', 'Bearer %s' % self.access_token)
 
     def parse_token_response(self, res):
         self.uid = res['douban_user_id']
@@ -32,9 +29,6 @@ class DouBan(OAuth2):
 
         res = self.api_call_get('/v2/user/~me')
 
-
         self.name = res['name']
         self.avatar = res['avatar']
         self.avatar_large = ""
-
-

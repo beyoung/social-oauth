@@ -5,8 +5,8 @@ import json
 from socialoauth.sites.base import OAuth2
 from socialoauth.exception import SocialAPIError
 
-
 QQ_OPENID_PATTERN = re.compile('\{.+\}')
+
 
 class QQ(OAuth2):
     AUTHORIZE_URL = 'https://graph.qq.com/oauth2.0/authorize'
@@ -14,16 +14,13 @@ class QQ(OAuth2):
 
     OPENID_URL = 'https://graph.qq.com/oauth2.0/me'
 
-
     @property
     def authorize_url(self):
         url = super(QQ, self).authorize_url
         return '%s&state=socialoauth' % url
 
-
     def get_access_token(self, code):
         super(QQ, self).get_access_token(code, method='GET', parse=False)
-
 
     def build_api_url(self, url):
         return url
@@ -37,13 +34,11 @@ class QQ(OAuth2):
         data.update(kwargs)
         return data
 
-
-
     def parse_token_response(self, res):
         if 'callback(' in res:
-            res = res[res.index('(')+1:res.rindex(')')]
+            res = res[res.index('(') + 1:res.rindex(')')]
             res = json.loads(res)
-            raise SocialAPIError(self.site_name, '', u'%s:%s' % (res['error'],res['error_description']) )
+            raise SocialAPIError(self.site_name, '', u'%s:%s' % (res['error'], res['error_description']))
         else:
             res = res.split('&')
             res = [_r.split('=') for _r in res]
@@ -63,8 +58,6 @@ class QQ(OAuth2):
         if res['ret'] != 0:
             raise SocialAPIError(self.site_name, _url, res)
 
-
         self.name = res['nickname']
         self.avatar = res['figureurl_qq_1']
         self.avatar_large = res['figureurl_qq_2']
-

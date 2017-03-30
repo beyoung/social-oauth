@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import json
-from urllib import quote_plus
+
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
 
 from socialoauth.sites.base import OAuth2
 from socialoauth.exception import SocialAPIError, SocialSitesConfigError
@@ -17,14 +21,14 @@ class Wechat(OAuth2):
     @property
     def authorize_url(self):
         url = "%s?appid=%s&redirect_uri=%s&response_type=code" % (
-                self.AUTHORIZE_URL, self.CLIENT_ID, quote_plus(self.REDIRECT_URI)
-            )
-        
+            self.AUTHORIZE_URL, self.CLIENT_ID, quote_plus(self.REDIRECT_URI)
+        )
+
         if getattr(self, 'SCOPE', None) is not None:
             if (self.SCOPE in self.SUPPORTED_SCOPES):
                 url = '%s&scope=%s' % (url, self.SCOPE)
             else:
-                raise SocialSitesConfigError("SCOPE must be one of (%s)." %(','.join(self.SUPPORTED_SCOPES)), None)
+                raise SocialSitesConfigError("SCOPE must be one of (%s)." % (','.join(self.SUPPORTED_SCOPES)), None)
         else:
             raise SocialSitesConfigError("SCOPE is required!", None)
 
@@ -33,12 +37,12 @@ class Wechat(OAuth2):
 
     def get_access_token(self, code):
         data = {
-                'appid': self.CLIENT_ID,
-                'secret': self.CLIENT_SECRET,
-                'redirect_uri': self.REDIRECT_URI,
-                'code': code,
-                'grant_type': 'authorization_code'
-            }
+            'appid': self.CLIENT_ID,
+            'secret': self.CLIENT_SECRET,
+            'redirect_uri': self.REDIRECT_URI,
+            'code': code,
+            'grant_type': 'authorization_code'
+        }
 
         res = self.http_get(self.ACCESS_TOKEN_URL, data, parse=False)
         self.parse_token_response(res)
@@ -65,10 +69,10 @@ class Wechat(OAuth2):
 
         if self.SCOPE == 'snsapi_userinfo':
             res = self.api_call_get(self.OPENID_URL, lang='zh_CN')
-    
+
             if 'errcode' in res:
                 raise SocialAPIError(self.site_name, self.OPENID_URL, res)
-    
+
             self.name = res['nickname']
             self.avatar = res['headimgurl']
             self.avatar_large = res['headimgurl']

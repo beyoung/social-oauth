@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+import sys
+
+
+def get_python_version():
+    """
+    check python version
+    :return:
+    """
+    return sys.version_info[0]
 
 
 def import_oauth_class(m):

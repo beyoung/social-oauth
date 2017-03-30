@@ -15,13 +15,10 @@ class Sohu(OAuth2):
         super(Sohu, self).__init__()
         self.CLIENT_SECRET = base64.b64encode(self.CLIENT_SECRET)
 
-
     @property
     def authorize_url(self):
         url = super(Sohu, self).authorize_url
         return '%s&scope=basic&wrap_client_state=socialoauth' % url
-
-
 
     def build_api_url(self, url):
         return '%s%s' % (self.SOHU_API_URL_PREFIX, url)
@@ -44,6 +41,3 @@ class Sohu(OAuth2):
         self.name = res['screen_name']
         self.avatar = res['profile_image_url']
         self.avatar_large = ""
-
-
-

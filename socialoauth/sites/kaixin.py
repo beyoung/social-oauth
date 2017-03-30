@@ -9,7 +9,6 @@ class KaiXin(OAuth2):
 
     API_URL_PREFIX = 'https://api.kaixin001.com'
 
-
     def build_api_url(self, url):
         return '%s%s' % (self.API_URL_PREFIX, url)
 
@@ -31,4 +30,3 @@ class KaiXin(OAuth2):
         self.name = res['name']
         self.avatar = res['logo50']
         self.avatar_large = ""
-

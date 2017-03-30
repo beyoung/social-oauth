@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from socialoauth.utils import get_python_version
 from socialoauth.sites.base import OAuth2
 
 
 class Weibo(OAuth2):
     AUTHORIZE_URL = 'https://api.weibo.com/oauth2/authorize'
     ACCESS_TOKEN_URL = 'https://api.weibo.com/oauth2/access_token'
-
 
     def build_api_url(self, url):
         return url
@@ -33,12 +33,10 @@ class Weibo(OAuth2):
         self.avatar = res['profile_image_url']
         self.avatar_large = res['avatar_large']
 
-
-
     def post_status(self, text):
-        if isinstance(text, unicode):
-            text = text.encode('utf-8')
+        if get_python_version() < 3:
+            if isinstance(text, unicode):
+                text = text.encode('utf-8')
 
         url = 'https://api.weibo.com/2/statuses/update.json'
         res = self.api_call_post(url, status=text)
-

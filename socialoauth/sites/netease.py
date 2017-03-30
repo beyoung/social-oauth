@@ -30,6 +30,3 @@ class NetEase(OAuth2):
         self.name = res['name']
         self.avatar = res['profile_image_url']
         self.avatar_large = ""
-
-
-

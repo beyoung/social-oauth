@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
-
+from socialoauth.utils import get_python_version
 from socialoauth.exception import SocialSitesConfigError, SocialAPIError
 from socialoauth.utils import import_oauth_class
 
-
 version_info = (0, 3, 3)
-VERSION = __version__ = '.'.join( map(str, version_info) )
+VERSION = __version__ = '.'.join(map(str, version_info))
 
 
 def singleton(cls):
     instance = {}
+
     def get_instance(*args, **kwargs):
         if cls not in instance:
             instance[cls] = cls(*args, **kwargs)
         return instance[cls]
+
     return get_instance
 
 
 @singleton
 class SocialSites(object):
     """This class holds the sites settings."""
+
     def __init__(self, settings=None, force_config=False):
         self._configed = False
         if settings:
@@ -50,15 +52,17 @@ class SocialSites(object):
                 'site_name': _site_name,
                 'site_name_zh': _site_name_zh,
             }
-
-            for _k, _v in _site_config.iteritems():
-                self._sites_class_config_table[_site_class][_k.upper()] = _v
+            if get_python_version() > 2:
+                for _k, _v in _site_config.item():
+                    self._sites_class_config_table[_site_class][_k.upper()] = _v
+            else:
+                for _k, _v in _site_config.iteritem():
+                    self._sites_class_config_table[_site_class][_k.upper()] = _v
 
             self._sites_name_list.append(_site_name)
             self._sites_class_list.append(_site_class)
 
         self._configed = True
-
 
     def load_config(self, module_class_name):
         """
@@ -69,7 +73,6 @@ class SocialSites(object):
             settings = socialsites.load_config(class_key_name)
         """
         return self._sites_class_config_table[module_class_name]
-
 
     def list_sites_class(self):
         return self._sites_class_list
