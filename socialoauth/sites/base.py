@@ -81,8 +81,12 @@ class OAuth2(object):
         """
         key = '%s.%s' % (self.__class__.__module__, self.__class__.__name__)
         configs = socialsites.load_config(key)
-        for k, v in configs.iteritems():
-            setattr(self, k, v)
+        if get_python_version() > 2:
+            for k, v in configs.items():
+                setattr(self, k, v)
+        else:
+            for k, v in configs.iteritems():
+                setattr(self, k, v)
 
     def request_data(self, url, data):
         if get_python_version() > 2:

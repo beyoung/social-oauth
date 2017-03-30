@@ -53,10 +53,10 @@ class SocialSites(object):
                 'site_name_zh': _site_name_zh,
             }
             if get_python_version() > 2:
-                for _k, _v in _site_config.item():
+                for _k, _v in _site_config.items():
                     self._sites_class_config_table[_site_class][_k.upper()] = _v
             else:
-                for _k, _v in _site_config.iteritem():
+                for _k, _v in _site_config.iteritems():
                     self._sites_class_config_table[_site_class][_k.upper()] = _v
 
             self._sites_name_list.append(_site_name)
