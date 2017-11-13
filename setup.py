@@ -11,7 +11,7 @@ setup(
     name='socialoauth',
     version=socialoauth.VERSION,
     license='MIT',
-    description='Python Package For SNS sites with OAuth2 support',
+    #description='Python Package For SNS sites with OAuth2 support',
     long_description=open('README.txt').read(),
     author='Wang Chao',
     editor='beyouth',
