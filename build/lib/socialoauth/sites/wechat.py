@@ -12,11 +12,11 @@ from socialoauth.exception import SocialAPIError, SocialSitesConfigError
 
 
 class Wechat(OAuth2):
-    AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize'
+    AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect/'
     ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token'
     OPENID_URL = 'https://api.weixin.qq.com/sns/userinfo'
 
-    SUPPORTED_SCOPES = ('snsapi_base', 'snsapi_userinfo')
+    SUPPORTED_SCOPES = ('snsapi_base', 'snsapi_userinfo', 'snsapi_login')
 
     @property
     def authorize_url(self):
@@ -25,7 +25,7 @@ class Wechat(OAuth2):
         )
 
         if getattr(self, 'SCOPE', None) is not None:
-            if (self.SCOPE in self.SUPPORTED_SCOPES):
+            if self.SCOPE in self.SUPPORTED_SCOPES:
                 url = '%s&scope=%s' % (url, self.SCOPE)
             else:
                 raise SocialSitesConfigError("SCOPE must be one of (%s)." % (','.join(self.SUPPORTED_SCOPES)), None)

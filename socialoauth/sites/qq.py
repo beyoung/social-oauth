@@ -35,7 +35,7 @@ class QQ(OAuth2):
         return data
 
     def parse_token_response(self, res):
-        if 'callback(' in res:
+        if u'callback(' in res:
             res = res[res.index('(') + 1:res.rindex(')')]
             res = json.loads(res)
             raise SocialAPIError(self.site_name, '', u'%s:%s' % (res['error'], res['error_description']))
