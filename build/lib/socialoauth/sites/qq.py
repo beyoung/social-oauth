@@ -35,6 +35,7 @@ class QQ(OAuth2):
         return data
 
     def parse_token_response(self, res):
+        res = res.decode('utf-8')
         if u'callback(' in res:
             res = res[res.index('(') + 1:res.rindex(')')]
             res = json.loads(res)

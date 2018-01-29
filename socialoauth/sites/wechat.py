@@ -12,7 +12,7 @@ from socialoauth.exception import SocialAPIError, SocialSitesConfigError
 
 
 class Wechat(OAuth2):
-    AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect/'
+    AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/qrconnect'
     ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token'
     OPENID_URL = 'https://api.weixin.qq.com/sns/userinfo'
 
@@ -45,6 +45,7 @@ class Wechat(OAuth2):
         }
 
         res = self.http_get(self.ACCESS_TOKEN_URL, data, parse=False)
+        print(res, 'wahaha')
         self.parse_token_response(res)
 
     def build_api_url(self, url):
